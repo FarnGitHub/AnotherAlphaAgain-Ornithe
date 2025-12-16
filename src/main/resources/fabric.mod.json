@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"id": "skin_sound_fix",
+	"version": "${version}",
+	"name": "Another Alpha Mod Again",
+	"description": "Yea again...",
+	"authors": [
+		"farnfarn02"
+	],
+	"license": "CC0-1.0",
+	"icon": "farn/another_alpha_again/icon.png",
+	"environment": "client",
+  "entrypoints": {
+    "client-init": [
+      "farn.another_alpha_again.Main"
+    ]
+  },
+	"mixins": [
+    "farn/another_alpha_again/mainAlpha.mixins.json"
+	],
+	"depends": {
+		"minecraft": "1.0.0-alpha.1.2.1"
+	}
+}

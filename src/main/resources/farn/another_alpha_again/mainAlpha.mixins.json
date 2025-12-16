@@ -1,0 +1,29 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "farn.another_alpha_again.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"client": [
+    "skin.InputPlayerSkinMixin",
+    "skin.MultiPlayerSkinMixin",
+    "skin.ResourceThreadMixin",
+    "AEI.GuiAccessor",
+    "world.LeavesBlockMixin",
+    "world.GrassBlockMixin",
+    "MinecraftMixin",
+    "GameOptionsMixin",
+    "world.CraftingManagerMixin",
+    "world.ShapedRecipeAccessor",
+    "world.BoatMixin",
+    "world.MixinBlock",
+    "world.StairsMixin",
+    "world.AxeItemMixin",
+    "world.PickAxeItemMixin",
+    "world.FurnaceBlockEntityMixin",
+    "GameRendererMixin",
+    "ScreenMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
