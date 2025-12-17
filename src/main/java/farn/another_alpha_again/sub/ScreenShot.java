@@ -14,8 +14,7 @@ import java.util.Date;
 
 public class ScreenShot extends Thread {
 	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
-	public static File screenShotDirectory = new File(Minecraft.getRunDirectory(), "screenshots");
-
+	public static final File screenShotDirectory = new File(Minecraft.getRunDirectory(), "screenshots");
 	public int width, height;
 	public byte[] pixelData;
 

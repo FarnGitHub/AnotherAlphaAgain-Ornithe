@@ -78,4 +78,29 @@ public class MinecraftMixin {
 		if (!Keyboard.getEventKeyState())
 			Main.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
 	}
+
+	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Keyboard;getEventKey()I", ordinal = 4))
+	public int redir(Operation<Integer> original)
+	{
+		if (Keyboard.getEventKey() == 63)
+		{
+			if (((Minecraft) (Object) this).options.debugEnabled)
+			{
+				if (!Main.front)
+				{
+					Main.front = true;
+				}
+				else
+				{
+					((Minecraft) (Object) this).options.debugEnabled = false;
+					Main.front = false;
+				}
+			}
+			else
+			{
+				((Minecraft) (Object) this).options.debugEnabled = true;
+			}
+		}
+		return 0;
+	}
 }

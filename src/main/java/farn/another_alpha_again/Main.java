@@ -6,6 +6,7 @@ import farn.another_alpha_again.sub.QueueDispatcher;
 import farn.another_alpha_again.sub.ScreenShot;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.inventory.menu.InventoryMenuScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -23,6 +24,7 @@ public class Main implements ClientModInitializer {
 	public static int cfgVersion = 1;
 	public static final File cfgFile = new File(Minecraft.getRunDirectory(), "another_alpha_mod_again.cfg");
 	public static final Logger LOGGER = LogManager.getLogger("Another Alpha Mod");
+	public static boolean front = false;
 
 	public static void loadOption(File cfgFile) {
 		if (!cfgFile.exists()) {
@@ -132,14 +134,16 @@ public class Main implements ClientModInitializer {
 
 	public static void handleKeyPressed(int keyIndex, boolean downKey) {
 		if(downKey) {
-			if(mc.screen != null) {
-				if(getAEIToggleButton() != 0 && keyIndex == getAEIToggleButton()) {
-					AlwaysEnoughItems.enabled = !AlwaysEnoughItems.enabled;
+			if(mc.world != null) {
+				if(mc.screen instanceof InventoryMenuScreen) {
+					if(getAEIToggleButton() != 0 && keyIndex == getAEIToggleButton()) {
+						AlwaysEnoughItems.enabled = !AlwaysEnoughItems.enabled;
+					}
 				}
-			}
 
-			if(keyIndex == Keyboard.KEY_F2) {
-				ScreenShot.take(mc.width, mc.height);
+				if(keyIndex == Keyboard.KEY_F2) {
+					ScreenShot.take(mc.width, mc.height);
+				}
 			}
 		}
 	}

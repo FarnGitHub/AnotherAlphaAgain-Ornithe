@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "skin_sound_fix",
+	"id": "another_alpha_again",
 	"version": "${version}",
 	"name": "Another Alpha Mod Again",
 	"description": "Yea again...",
@@ -11,7 +11,7 @@
 	"icon": "farn/another_alpha_again/icon.png",
 	"environment": "client",
   "entrypoints": {
-    "client-init": [
+    "client": [
       "farn.another_alpha_again.Main"
     ]
   },
