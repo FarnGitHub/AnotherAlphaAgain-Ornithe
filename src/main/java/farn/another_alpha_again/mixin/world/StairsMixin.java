@@ -2,7 +2,7 @@ package farn.another_alpha_again.mixin.world;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -19,12 +19,12 @@ public class StairsMixin {
 
 	@WrapMethod(method="getDropItem")
 	public int dropStairs(int metadata, Random random, Operation<Integer> original) {
-		return Main.dropStairs() ? this.theBlock.id : original.call(metadata, random);
+		return AnotherAlphaAgain.dropStairs() ? this.theBlock.id : original.call(metadata, random);
 	}
 
 	@WrapMethod(method="dropItems(Lnet/minecraft/world/World;IIIIF)V")
 	public void dropSelfItem1(World world, int x, int y, int z, int metadata, float luck, Operation<Void> original) {
-		if (Main.dropStairs()) {
+		if (AnotherAlphaAgain.dropStairs()) {
 			actualDropItem(world,x,y,z);
 		} else {
 			original.call(world, x, y, z, metadata, luck);
@@ -33,7 +33,7 @@ public class StairsMixin {
 
 	@WrapMethod(method="dropItems(Lnet/minecraft/world/World;IIII)V")
 	public void dropSelfItem1(World world, int x, int y, int z, int metadata, Operation<Void> original) {
-		if (Main.dropStairs()) {
+		if (AnotherAlphaAgain.dropStairs()) {
 			actualDropItem(world,x,y,z);
 		} else {
 			original.call(world, x, y, z, metadata);

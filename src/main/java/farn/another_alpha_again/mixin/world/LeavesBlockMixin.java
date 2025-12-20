@@ -2,7 +2,7 @@ package farn.another_alpha_again.mixin.world;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +16,7 @@ public class LeavesBlockMixin {
 
 	@WrapMethod(method="tick")
 	public void tickWrap(World world, int x, int y, int z, Random random, Operation<Void> original) {
-		if(Main.getLeafDecayFix()) {
+		if(AnotherAlphaAgain.getLeafDecayFix()) {
 			if(!world.getMaterial(x, y - 1, z).isSolid()) {
 				for(int i = x - 4; i <= x + 4; ++i) {
 					for(int j = y - 3; j <= y; ++j) {

@@ -7,7 +7,7 @@
     "skin.InputPlayerSkinMixin",
     "skin.MultiPlayerSkinMixin",
     "skin.ResourceThreadMixin",
-    "AEI.GuiAccessor",
+    "gui.GuiAccessor",
     "world.LeavesBlockMixin",
     "world.GrassBlockMixin",
     "MinecraftMixin",
@@ -21,7 +21,8 @@
     "world.PickAxeItemMixin",
     "world.FurnaceBlockEntityMixin",
     "GameRendererMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "gui.IngameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

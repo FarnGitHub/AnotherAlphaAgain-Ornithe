@@ -1,6 +1,6 @@
 package farn.another_alpha_again.mixin.world;
 
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import farn.another_alpha_again.option.EnumOptions;
 import net.minecraft.block.Block;
 import net.minecraft.crafting.CraftingManager;
@@ -26,7 +26,7 @@ public abstract class CraftingManagerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void onInit(CallbackInfo ci) {
-		if(Main.toggleDoubleSlabRecipe()) {
+		if(AnotherAlphaAgain.toggleDoubleSlabRecipe()) {
 			for (int i = 0; i < this.recipes.size(); i++) {
 				ShapedRecipe recipe = this.recipes.get(i);
 				ShapedRecipeAccessor accessor = (ShapedRecipeAccessor) recipe;

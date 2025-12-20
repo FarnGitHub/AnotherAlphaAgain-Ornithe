@@ -2,11 +2,14 @@ package farn.another_alpha_again;
 
 import farn.another_alpha_again.option.EnumOptions;
 import farn.another_alpha_again.sub.AlwaysEnoughItems;
+import farn.another_alpha_again.sub.DebugHudExtraDrawer;
 import farn.another_alpha_again.sub.QueueDispatcher;
 import farn.another_alpha_again.sub.ScreenShot;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiElement;
 import net.minecraft.client.gui.screen.inventory.menu.InventoryMenuScreen;
+import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -17,7 +20,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-public class Main implements ClientModInitializer {
+public class AnotherAlphaAgain implements ClientModInitializer {
 
 	private static final Properties prop = new Properties();
 	public static Minecraft mc;
@@ -25,6 +28,7 @@ public class Main implements ClientModInitializer {
 	public static final File cfgFile = new File(Minecraft.getRunDirectory(), "another_alpha_mod_again.cfg");
 	public static final Logger LOGGER = LogManager.getLogger("Another Alpha Mod");
 	public static boolean front = false;
+	public static boolean debugScreen = false;
 
 	public static void loadOption(File cfgFile) {
 		if (!cfgFile.exists()) {
@@ -143,6 +147,10 @@ public class Main implements ClientModInitializer {
 
 				if(keyIndex == Keyboard.KEY_F2) {
 					ScreenShot.take(mc.width, mc.height);
+				}
+
+				if(keyIndex == Keyboard.KEY_F3) {
+					debugScreen = !debugScreen;
 				}
 			}
 		}

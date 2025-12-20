@@ -1,4 +1,4 @@
-package farn.another_alpha_again.mixin.AEI;
+package farn.another_alpha_again.mixin.gui;
 
 import net.minecraft.client.gui.GuiElement;
 import org.spongepowered.asm.mixin.Mixin;

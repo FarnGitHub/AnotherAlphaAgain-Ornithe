@@ -1,6 +1,6 @@
 package farn.another_alpha_again.sub;
 
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class QueueDispatcher {
 
 	public static void queueChatMessage(String msg) {
 		QueueDispatcher.queue.add(() -> {
-			Main.mc.gui.addChatMessage(msg);
+			AnotherAlphaAgain.mc.gui.addChatMessage(msg);
 		});
 	}
 }

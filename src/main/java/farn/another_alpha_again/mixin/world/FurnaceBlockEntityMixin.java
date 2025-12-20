@@ -1,6 +1,6 @@
 package farn.another_alpha_again.mixin.world;
 
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ public class FurnaceBlockEntityMixin {
 
 	@Inject(method="getResult", at = @At("HEAD"), cancellable = true)
 	public void addWoodToCoalRecipe(int input, CallbackInfoReturnable<Integer> cir) {
-		if(Main.logToCoalSmelt() && input == Block.LOG.id) {
+		if(AnotherAlphaAgain.logToCoalSmelt() && input == Block.LOG.id) {
 			cir.setReturnValue(Item.COAL.id);
 		}
 	}

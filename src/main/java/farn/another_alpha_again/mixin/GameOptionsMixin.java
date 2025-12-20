@@ -3,7 +3,7 @@ package farn.another_alpha_again.mixin;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.render.texture.TextureManager;
@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.File;
@@ -39,7 +38,7 @@ public class GameOptionsMixin {
 
 	@WrapOperation(method="setValue(II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/texture/TextureManager;reload()V"))
 	public void disableAnaglyphReload(TextureManager instance, Operation<Void> original) {
-		Sys.openURL("file://" + Main.cfgFile.getAbsolutePath());
+		Sys.openURL("file://" + AnotherAlphaAgain.cfgFile.getAbsolutePath());
 	}
 
 	@Inject(method="<init>(Lnet/minecraft/client/Minecraft;Ljava/io/File;)V", at = @At("TAIL"))
@@ -58,6 +57,6 @@ public class GameOptionsMixin {
 
 	@Inject(method="save", at =@At("TAIL"))
 	public void saveOptions(CallbackInfo ci) {
-		Main.saveOptions(Main.cfgFile, true);
+		AnotherAlphaAgain.saveOptions(AnotherAlphaAgain.cfgFile, true);
 	}
 }

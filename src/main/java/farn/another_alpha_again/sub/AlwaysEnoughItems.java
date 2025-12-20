@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.Lighting;
-import farn.another_alpha_again.mixin.AEI.GuiAccessor;
+import farn.another_alpha_again.mixin.gui.GuiAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiElement;
 import net.minecraft.client.gui.screen.Screen;

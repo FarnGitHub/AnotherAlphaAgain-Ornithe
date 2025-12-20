@@ -1,8 +1,7 @@
 package farn.another_alpha_again.mixin.world;
 
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.block.Block;
-import net.minecraft.block.StoneSlabBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,7 +14,7 @@ public class MixinBlock {
 
 	@Inject(method = "getBaseDropCount", at = @At("HEAD"), cancellable = true)
 	private void fixItemDropped(Random random, CallbackInfoReturnable<Integer> cir) {
-		if (Main.dropDoubleSlab() && (Object) this == Block.DOUBLE_STONE_SLAB) {
+		if (AnotherAlphaAgain.dropDoubleSlab() && (Object) this == Block.DOUBLE_STONE_SLAB) {
 			cir.setReturnValue(2); // double slab drops 2 singles
 		}
 	}

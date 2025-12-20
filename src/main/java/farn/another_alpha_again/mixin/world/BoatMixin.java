@@ -2,7 +2,7 @@ package farn.another_alpha_again.mixin.world;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -17,7 +17,7 @@ public class BoatMixin {
 
 	@WrapOperation(method="tick", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/vehicle/BoatEntity;collidingHorizontally:Z"))
 	public boolean collidable(BoatEntity instance, Operation<Boolean> original) {
-		return !Main.boatBreakless() && original.call(instance);
+		return !AnotherAlphaAgain.boatBreakless() && original.call(instance);
 	}
 
 	@WrapOperation(
@@ -31,7 +31,7 @@ public class BoatMixin {
 		if (i == Item.BOAT.id) {
 			return boat.dropItem(Item.BOAT.id, 1, 0.0F);
 		}
-		return Main.boatBreakless() ? null : original.call(boat, i,x,v);
+		return AnotherAlphaAgain.boatBreakless() ? null : original.call(boat, i,x,v);
 	}
 
 	@Inject(method="damage", at = @At(value="INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;remove()V", shift = At.Shift.BEFORE))

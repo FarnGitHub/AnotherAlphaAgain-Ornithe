@@ -1,12 +1,19 @@
 package farn.another_alpha_again.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
+import farn.another_alpha_again.sub.GuiException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MinecraftApplet;
+import net.minecraft.client.gui.screen.SaveConflictScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.world.World;
+import net.minecraft.world.storage.exception.SessionLockException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -20,7 +27,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.awt.*;
 
 @Mixin(Minecraft.class)
-public class MinecraftMixin {
+public abstract class MinecraftMixin {
+
+	@Shadow
+	public World world;
+
+	@Shadow
+	public abstract void setWorld(World world);
+
+	@Shadow
+	public abstract void openScreen(Screen screen);
 
 	@WrapOperation(method="init", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;create()V", ordinal = 0))
 	public void createDepthBitFix(Operation<Void> original) throws LWJGLException {
@@ -34,9 +50,40 @@ public class MinecraftMixin {
 		return false;
 	}
 
+	@WrapMethod(method="tick")
+	public void wrapCrashTick(Operation<Void> original) {
+		try {
+			original.call();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if(e instanceof SessionLockException) {
+				this.world = null;
+				this.setWorld(null);
+				this.openScreen(new SaveConflictScreen());
+			} else {
+				this.setWorld(null);
+				this.openScreen(new GuiException(e));
+			}
+
+		}
+	}
+
+	@WrapOperation(method="run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(F)V"))
+	public void renderCrashed(GameRenderer instance, float tickDelta, Operation<Void> original) {
+		try {
+			original.call(instance, tickDelta);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if(world != null) {
+				this.setWorld(null);
+			}
+			this.openScreen(new GuiException(e));
+		}
+	}
+
 	@Inject(method="<init>", at = @At("TAIL"))
 	public void minecraftEarlyInit(Component component, Canvas canvas, MinecraftApplet minecraftApplet, int i, int j, boolean bl, CallbackInfo ci) {
-		Main.mc = (Minecraft) (Object)this;
+		AnotherAlphaAgain.mc = (Minecraft) (Object)this;
 	}
 
 	@Inject(
@@ -48,7 +95,7 @@ public class MinecraftMixin {
 		)
 	)
 	private void stationapi_keyPressInGUI(CallbackInfo ci) {
-		Main.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+		AnotherAlphaAgain.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
 	}
 
 	@Inject(
@@ -61,7 +108,7 @@ public class MinecraftMixin {
 		)
 	)
 	private void stationapi_keyPressInGame(CallbackInfo ci) {
-		Main.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+		AnotherAlphaAgain.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
 	}
 
 	@Inject(
@@ -76,7 +123,7 @@ public class MinecraftMixin {
 	)
 	private void stationapi_keyReleased(CallbackInfo ci) {
 		if (!Keyboard.getEventKeyState())
-			Main.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+			AnotherAlphaAgain.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
 	}
 
 	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Keyboard;getEventKey()I", ordinal = 4))
@@ -86,14 +133,14 @@ public class MinecraftMixin {
 		{
 			if (((Minecraft) (Object) this).options.debugEnabled)
 			{
-				if (!Main.front)
+				if (!AnotherAlphaAgain.front)
 				{
-					Main.front = true;
+					AnotherAlphaAgain.front = true;
 				}
 				else
 				{
 					((Minecraft) (Object) this).options.debugEnabled = false;
-					Main.front = false;
+					AnotherAlphaAgain.front = false;
 				}
 			}
 			else

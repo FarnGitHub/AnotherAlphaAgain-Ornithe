@@ -1,6 +1,6 @@
 package farn.another_alpha_again.mixin;
 
-import farn.another_alpha_again.Main;
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.client.gui.screen.Screen;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class ScreenMixin {
 
 	@Inject(method = "handleInputs", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;handleKeyboard()V", shift = At.Shift.BEFORE))
 	public void keyInput(CallbackInfo ci) {
-		Main.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+		AnotherAlphaAgain.handleKeyPressed(Keyboard.getEventKey(), Keyboard.getEventKeyState());
 	}
 
 }
