@@ -3,6 +3,7 @@ package farn.another_alpha_again.sub;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import farn.another_alpha_again.AnotherAlphaAgain;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -27,12 +28,18 @@ public class ScreenShot extends Thread {
 
 	@Override
 	public void run() {
+		if (width <= 0 || height <= 0) {
+			queueChatMessage("Invalid screenshot size");
+			return;
+		}
+
 		try {
 			int[] imageData = new int[width * height];
 
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
 					int src = x + (height - y - 1) * width;
+					if (src < 0 || src >= width * height) continue;
 					int r = pixelData[src * 3] & 255;
 					int g = pixelData[src * 3 + 1] & 255;
 					int b = pixelData[src * 3 + 2] & 255;
@@ -53,16 +60,19 @@ public class ScreenShot extends Thread {
 	}
 
 	public static void take(int widthR, int heightR) {
-		ScreenShot thread = new ScreenShot();
-		thread.width = widthR;
-		thread.height = heightR;
-		ByteBuffer buffer = BufferUtils.createByteBuffer(thread.width * thread.height * 3);
-		GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
-		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-		GL11.glReadPixels(0, 0, thread.width, thread.height, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buffer);
-		thread.pixelData = new byte[thread.width * thread.height * 3];
-		buffer.get(thread.pixelData);
-		thread.start();
+
+		if(AnotherAlphaAgain.mc.world != null) {
+			ScreenShot thread = new ScreenShot();
+			thread.width = widthR;
+			thread.height = heightR;
+			ByteBuffer buffer = BufferUtils.createByteBuffer(thread.width * thread.height * 3);
+			GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+			GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+			GL11.glReadPixels(0, 0, thread.width, thread.height, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buffer);
+			thread.pixelData = new byte[thread.width * thread.height * 3];
+			buffer.get(thread.pixelData);
+			thread.start();
+		}
 	}
 
 	private static void queueChatMessage(String msg) {

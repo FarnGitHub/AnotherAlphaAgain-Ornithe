@@ -18,21 +18,26 @@ public enum EnumOptions {
 
 	public final OptionValue optionValue;
 
+	public final Object finalValue;
+
 	public String optionsName;
 
 	EnumOptions(String optionsName, String text) {
+		finalValue = text;
 		this.type = EnumOptionType.STRING;
 		this.optionsName = optionsName;
 		this.optionValue = new OptionValue<>(text, String.class);
 	}
 
 	EnumOptions(String optionsName, boolean bool) {
+		finalValue = bool;
 		this.type = EnumOptionType.TOGGLE;
 		this.optionsName = optionsName;
 		this.optionValue = new OptionValue<>(bool, Boolean.class);
 	}
 
 	EnumOptions(String optionsName, int keybind) {
+		finalValue = keybind;
 		this.type = EnumOptionType.KEYBIND;
 		this.optionsName = optionsName;
 		this.optionValue = new OptionValue<>(keybind, Integer.class);

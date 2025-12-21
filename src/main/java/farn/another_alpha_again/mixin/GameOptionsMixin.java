@@ -4,10 +4,11 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import farn.another_alpha_again.AnotherAlphaAgain;
+import farn.another_alpha_again.option.gui.AnotherAlphaOptionScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.render.texture.TextureManager;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +39,8 @@ public class GameOptionsMixin {
 
 	@WrapOperation(method="setValue(II)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/texture/TextureManager;reload()V"))
 	public void disableAnaglyphReload(TextureManager instance, Operation<Void> original) {
-		Sys.openURL("file://" + AnotherAlphaAgain.cfgFile.getAbsolutePath());
+		Screen prevScreen = AnotherAlphaAgain.mc.screen;
+		AnotherAlphaAgain.mc.openScreen(new AnotherAlphaOptionScreen(prevScreen));
 	}
 
 	@Inject(method="<init>(Lnet/minecraft/client/Minecraft;Ljava/io/File;)V", at = @At("TAIL"))
@@ -57,6 +59,6 @@ public class GameOptionsMixin {
 
 	@Inject(method="save", at =@At("TAIL"))
 	public void saveOptions(CallbackInfo ci) {
-		AnotherAlphaAgain.saveOptions(AnotherAlphaAgain.cfgFile, true);
+		//AnotherAlphaAgain.saveOptions(AnotherAlphaAgain.cfgFile, true);
 	}
 }
